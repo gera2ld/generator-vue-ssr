@@ -2,7 +2,7 @@
   "name": "<%= name %>",
   "version": "0.0.0",
   "description": "<%= description %>",
-  "author": "<%= author %>",
+  "author": <%- JSON.stringify(author || '') %>,
   "private": true,
   "scripts": {
     "start": "node server.js",

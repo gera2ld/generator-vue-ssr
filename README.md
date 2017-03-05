@@ -5,7 +5,7 @@ generator-vue-ssr
 ![License](https://img.shields.io/npm/l/generator-vue-ssr.svg)
 ![Downloads](https://img.shields.io/npm/dt/generator-vue-ssr.svg)
 
-Generate a project built with Vue.js with server-side rendering.
+A Yeoman generator to generate a project built with Vue.js with server-side rendering.
 
 Installation
 ---
@@ -22,5 +22,10 @@ Usage
 --
 
 ``` sh
-$ yo vue-ssr my-project
+# Make sure yo is installed
+$ npm i yo -g
+
+# Initialize my project
+$ cd my-project
+$ yo vue-ssr
 ```

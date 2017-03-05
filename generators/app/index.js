@@ -7,7 +7,7 @@ module.exports = class VueSSR extends Generator {
       type: 'input',
       name: 'name',
       message: 'Your project name',
-      default: this.appname,
+      default: this.appname.toLowerCase().replace(/\s+/g, '-'),
     }, {
       type: 'input',
       name: 'description',
