@@ -1,0 +1,25 @@
+{
+  "name": "generator-vue-ssr",
+  "version": "1.0.0",
+  "description": "Yeoman generator for Vue.js with SSR",
+  "files": [
+    "generators"
+  ],
+  "keywords": [
+    "yeoman-generator"
+  ],
+  "author": "Gerald <i@gerald.top>",
+  "license": "ISC",
+  "dependencies": {
+    "yeoman-generator": "^1.1.1"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gera2ld/generator-vue-ssr.git"
+  },
+  "bugs": {
+    "url": "https://github.com/gera2ld/generator-vue-ssr/issues"
+  },
+  "homepage": "https://github.com/gera2ld/generator-vue-ssr#readme"
+}
