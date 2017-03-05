@@ -1,14 +1,17 @@
 generator-vue-ssr
 ===
 
+![NPM](https://img.shields.io/npm/v/generator-vue-ssr.svg)
+![License](https://img.shields.io/npm/l/generator-vue-ssr.svg)
+![Downloads](https://img.shields.io/npm/dt/generator-vue-ssr.svg)
+
 Generate a project built with Vue.js with server-side rendering.
 
 Installation
 ---
 
 ``` sh
-# Install from github
-$ npm i gera2ld/generator-vue-ssr -g
+$ npm i generator-vue-ssr -g
 
 # Or clone the repo and link it to global node modules
 $ git clone https://github.com/gera2ld/generator-vue-ssr.git
