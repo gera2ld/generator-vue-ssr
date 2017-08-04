@@ -1,16 +1,14 @@
 {
   "presets": [
-    ["latest", {
-      "es2015": { "modules": false }
+    ["env", {
+      "modules": false,
+      "targets": {
+        "browsers": ["chrome >= 50"]
+      }
     }],
-    "stage-2"
   ],
-  "plugins": ["transform-runtime"],
+  "plugins": [
+    ["transform-runtime", {"polyfill": false}],
+  ],
   "comments": false,
-  "env": {
-    "test": {
-      "presets": ["latest", "stage-2"],
-      "plugins": [ "istanbul" ]
-    }
-  }
 }
