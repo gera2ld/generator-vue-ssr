@@ -1,10 +1,10 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Main from 'src/components/main';
+import Main from '#/components/main';
 
 Vue.use(Router);
 
-export default new Router({
+export default () => new Router({
   mode: 'history',
   routes: [
     {

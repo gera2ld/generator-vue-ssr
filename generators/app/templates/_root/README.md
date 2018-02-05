@@ -1,6 +1,6 @@
 # <%= name %>
 
-> <%= description %>
+> A web application built with Vue and server side rendering.
 
 ## Build Setup
 

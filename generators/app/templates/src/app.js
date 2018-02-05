@@ -1,12 +1,15 @@
 import Vue from 'vue';
 import App from './components/app';
-import router from './router';
+import createRouter from './router';
 
 Vue.config.productionTip = false;
 
-const app = new Vue({
-  router,
-  render: h => h(App),
-});
+export default function createApp() {
+  const router = createRouter();
+  const app = new Vue({
+    router,
+    render: h => h(App),
+  });
 
-export { app, router };
+  return { app, router };
+}

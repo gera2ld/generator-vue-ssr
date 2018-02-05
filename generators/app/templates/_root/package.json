@@ -1,16 +1,16 @@
 {
-  "name": "<%= name %>",
+  "name": "",
   "version": "0.0.0",
-  "description": "<%= description %>",
-  "author": <%- JSON.stringify(author || '') %>,
   "private": true,
+  "description": "",
+  "author": "",
+  "license": "ISC",
   "scripts": {
     "start": "node server.js",
     "build": "node build/build.js",
     "lint": "eslint --ext .js,.vue src"
   },
   "engines": {
-    "node": ">= 4.0.0",
-    "npm": ">= 3.0.0"
+    "node": ">=8"
   }
 }

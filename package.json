@@ -11,9 +11,9 @@
   "author": "Gerald <i@gerald.top>",
   "license": "ISC",
   "dependencies": {
-    "yeoman-generator": "^1.1.1"
+    "mz": "^2.7.0",
+    "yeoman-generator": "^2.0.2"
   },
-  "devDependencies": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/gera2ld/generator-vue-ssr.git"

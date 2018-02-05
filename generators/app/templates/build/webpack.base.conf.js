@@ -1,27 +1,25 @@
-const path = require('path');
-const utils = require('./utils');
-const config = require('../config');
+const webpack = require('webpack');
+const MinifyPlugin = require('babel-minify-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const { isDev, isProd, resolve, styleRule } = require('./utils');
 const vueLoaderConfig = require('./vue-loader.conf');
-const isDev = config.nconf.get('NODE_ENV') === 'development';
 
-function resolve (dir) {
-  return path.join(__dirname, '..', dir)
-}
+const definePlugin = new webpack.DefinePlugin({
+  'process.env': {
+    NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+  },
+});
 
 module.exports = {
-  entry: {
-    app: './src/client.js'
-  },
   output: {
-    path: config.build.assetsRoot,
-    publicPath: isDev ? config.dev.assetsPublicPath : config.build.assetsPublicPath,
-    filename: isDev ? '[name].js' : utils.assetsPath('js/[name].[chunkhash].js'),
-    chunkFilename: isDev ? '[id].js' : utils.assetsPath('js/[id].[chunkhash].js'),
+    path: resolve('dist'),
+    publicPath: '/dist/',
+    filename: '[name].[chunkhash].js',
   },
   resolve: {
-    extensions: ['.js', '.vue', '.json'],
+    extensions: ['.js', '.vue'],
     alias: {
-      src: resolve('src'),
+      '#': resolve('src'),
     }
   },
   module: {
@@ -37,21 +35,23 @@ module.exports = {
         include: [resolve('src'), resolve('test')]
       },
       {
-        test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
+        test: /\.(png|jpe?g|gif|svg|woff2?|eot|ttf|otf)(\?.*)?$/,
         loader: 'url-loader',
         query: {
           limit: 10000,
-          name: utils.assetsPath('img/[name].[hash:7].[ext]')
+          name: '[name].[ext]?[hash:7]',
         }
       },
-      {
-        test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
-        loader: 'url-loader',
-        query: {
-          limit: 10000,
-          name: utils.assetsPath('fonts/[name].[hash:7].[ext]')
-        }
-      }
-    ]
-  }
-}
+      styleRule({
+        fallback: 'vue-style-loader',
+        loaders: ['postcss-loader'],
+      }),
+    ],
+  },
+  devtool: isDev ? '#inline-source-map' : false,
+  plugins: [
+    definePlugin,
+    isProd && new MinifyPlugin(),
+    isProd && new ExtractTextPlugin('[name].[chunkhash].css'),
+  ].filter(Boolean),
+};

@@ -1,73 +1,37 @@
-const webpack = require('webpack')
-const merge = require('webpack-merge')
-const utils = require('./utils')
-const config = require('../config')
-const baseWebpackConfig = require('./webpack.base.conf')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
-const isDev = config.nconf.get('NODE_ENV') === 'development';
+const webpack = require('webpack');
+const VueSSRClientPlugin = require('vue-server-renderer/client-plugin');
+const base = require('./webpack.base.conf');
+const { merge, isProd } = require('./utils');
 
-const webpackConfig = merge(baseWebpackConfig, {
-  module: {
-    rules: utils.styleLoaders({
-      sourceMap: isDev ? config.dev.cssSourceMap : config.build.productionSourceMap,
-      extract: !isDev,
-    }),
+const config = merge(base, {
+  entry: {
+    app: './src/entry-client.js',
   },
-  // cheap-module-eval-source-map is faster for development
-  devtool: isDev ? '#cheap-module-eval-source-map' : config.build.productionSourceMap ? '#source-map' : false,
   plugins: [
     new webpack.DefinePlugin({
-      'process.env': Object.assign({
+      'process.env': {
+        NODE_ENV: JSON.stringify(process.env.NODE_ENV),
         VUE_ENV: '"client"',
-      }, isDev ? config.dev.env : config.build.env),
+      },
     }),
-    // split vendor js into its own file
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
-    }),
-    new FriendlyErrorsPlugin()
-  ]
-})
-
-if (isDev) {
-  webpackConfig.plugins.push(
-    // https://github.com/ampedandwired/html-webpack-plugin
-    new HtmlWebpackPlugin({
-      filename: 'index.html',
-      template: 'src/public/index.ejs',
-      inject: true,
-      config,
-    })
-  );
-} else {
-  webpackConfig.plugins.push(
-    // extract css into its own file
-    new ExtractTextPlugin(utils.assetsPath('css/[name].[contenthash].css')),
-    // generate dist index.html with correct asset hash for caching.
-    // you can customize output by editing /index.html
-    // see https://github.com/ampedandwired/html-webpack-plugin
-    new HtmlWebpackPlugin({
-      filename: config.build.index,
-      template: 'src/public/index.ejs',
-      inject: true,
-      minify: {
-        removeComments: true,
-        collapseWhitespace: true,
-        removeAttributeQuotes: true
-        // more options:
-        // https://github.com/kangax/html-minifier#options-quick-reference
+      minChunks(module) {
+        return (
+          // it's inside node_modules
+          /node_modules/.test(module.context) &&
+          // and not a CSS file (due to extract-text-webpack-plugin limitation)
+          !/\.css$/.test(module.request)
+        );
       },
-      // necessary to consistently work with multiple chunks via CommonsChunkPlugin
-      chunksSortMode: 'dependency'
     }),
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        warnings: false
-      }
-    })
-  );
-}
+    // extract webpack runtime & manifest to avoid vendor chunk hash changing
+    // on every build.
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'manifest'
+    }),
+    new VueSSRClientPlugin(),
+  ],
+});
 
-module.exports = webpackConfig;
+module.exports = config;

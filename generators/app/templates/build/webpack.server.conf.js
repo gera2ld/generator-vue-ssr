@@ -1,22 +1,27 @@
 const webpack = require('webpack')
-const config = require('../config')
-const baseWebpackConfig = require('./webpack.base.conf')
-const isDev = config.nconf.get('NODE_ENV') === 'development';
+const nodeExternals = require('webpack-node-externals');
+const VueSSRServerPlugin = require('vue-server-renderer/server-plugin');
+const base = require('./webpack.base.conf')
+const { merge, isProd } = require('./utils');
 
-module.exports = Object.assign({}, baseWebpackConfig, {
+module.exports = merge(base, {
   target: 'node',
   devtool: false,
-  entry: './src/server.js',
-  output: Object.assign({}, baseWebpackConfig.output, {
+  entry: './src/entry-server.js',
+  output: {
     filename: 'server-bundle.js',
     libraryTarget: 'commonjs2',
+  },
+  externals: nodeExternals({
+    whitelist: /\.css$/,
   }),
-  externals: Object.keys(require('../package.json').dependencies),
   plugins: [
     new webpack.DefinePlugin({
-      'process.env': Object.assign({
+      'process.env': {
+        NODE_ENV: JSON.stringify(process.env.NODE_ENV),
         VUE_ENV: '"server"',
-      }, isDev ? config.dev.env : config.build.env),
+      },
     }),
+    new VueSSRServerPlugin(),
   ],
 });
