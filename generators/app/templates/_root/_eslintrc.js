@@ -38,10 +38,8 @@ module.exports = {
     'no-console': ['error', {
       allow: ['error', 'warn'],
     }],
-    'no-param-reassign': ['error', {
-      props: false,
-    }],
-    'array-callback-return': ['off'],
-    'consistent-return': ['off'],
+    'no-param-reassign': ['error', { props: false }],
+    'arrow-parens': ['error', 'as-needed'],
+    'prefer-promise-reject-errors': 'off',
   }
 }
